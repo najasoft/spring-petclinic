@@ -48,7 +48,7 @@ public class Owner extends Person {
 
 	@Column(name = "address")
 	@NotEmpty
-private String address;
+	private String address;
 
 	@Column(name = "city")
 	@NotEmpty
