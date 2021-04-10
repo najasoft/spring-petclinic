@@ -36,7 +36,7 @@ public class Person extends BaseEntity {
 	private String lastName;
 
 	public String getFirstName() {
-		return this.firstName;
+		return this.lastName;
 	}
 
 	public void setFirstName(String firstName) {
