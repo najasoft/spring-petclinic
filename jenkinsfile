@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    stages {
+        stage('GIT') {https://github.com/najasoft/spring-petclinic.git
+            steps{
+                git url: 'https://github.com/najasoft/spring-petclinic.git',branch:'devops1'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh "./mvnw clean compile package"
+
+            }
+
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                always {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+                    emailext attachLog: true, body: 'Allez à ${BUILD_URL)', 
+                    compressLog: true, 
+                    to : 'me@jenkins',
+                    //recipientProviders: [upstreamDevelopers(), buildUser(), developers(), requestor()], 
+                    subject: 'job: ${JOB_NAME} , Build: ${BUILD_NUMBER_ID}'
+                }
+                notBuilt {
+                    emailext attachLog: true, body: 'Allez à ${BUILD_URL)', compressLog: true, recipientProviders: [upstreamDevelopers(), buildUser(), developers(), requestor()], subject: 'job: ${JOB_NAME} , Build: ${BUILD_NUMBER_ID}'
+                }
+                
+            }
+        }
+    }
+}
