@@ -18,14 +18,11 @@ pipeline {
                 always {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
-                    emailext attachLog: true, body: 'Allez à ${BUILD_URL)', 
-                    compressLog: true, 
-                    to : 'me@jenkins',
-                    //recipientProviders: [upstreamDevelopers(), buildUser(), developers(), requestor()], 
-                    subject: 'job: ${JOB_NAME} , Build: ${BUILD_NUMBER_ID}'
+                    slackSend botUser: true, channel: '#devops', teamDomain: 'devops', tokenCredentialId: 'slack-token'
+        
                 }
                 notBuilt {
-                    emailext attachLog: true, body: 'Allez à ${BUILD_URL)', compressLog: true, recipientProviders: [upstreamDevelopers(), buildUser(), developers(), requestor()], subject: 'job: ${JOB_NAME} , Build: ${BUILD_NUMBER_ID}'
+                    slackSend botUser: true, channel: '#devops', teamDomain: 'devops', tokenCredentialId: 'slack-token'
                 }
                 
             }
