@@ -27,10 +27,16 @@ pipeline {
                 
             }
         }
+        stage('Coverage'){
+            steps{
+                step( [ $class: 'JacocoPublisher' ] )
+            }
+        }
         stage('Checkstyle') {
                     steps {
                         sh "./mvnw checkstyle:checkstyle"
                         recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
+                        
                     }
         }
         
