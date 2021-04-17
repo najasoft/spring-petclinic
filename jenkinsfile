@@ -49,7 +49,7 @@ triggers {
             
           
             }
-        }
+        
         stage ('PACKAGE'){
             steps {
                 sh "./mvnw package"
