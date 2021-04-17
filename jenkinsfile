@@ -42,7 +42,14 @@ triggers {
                 }
             }
         }
-        
+        stage ('Couverture'){
+            steps {
+                step ([$class: 'JacocoPublisher'])
+            }
+            
+          
+            }
+        }
         stage ('PACKAGE'){
             steps {
                 sh "./mvnw package"
